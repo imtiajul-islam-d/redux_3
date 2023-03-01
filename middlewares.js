@@ -1,3 +1,4 @@
+
 // middleware
 const delayActionMiddleware = (store) => (next) => (action) => {
   switch (action.type) {
@@ -13,6 +14,16 @@ const delayActionMiddleware = (store) => (next) => (action) => {
   }
 };
 
+const fetchAsyncMiddleware = (store) => (next) => async (action) => {
+  switch (typeof action) {
+    case "function":
+      return action(store.dispatch)
+    default:
+      next(action);
+  }
+};
+
 module.exports = {
-    delayActionMiddleware
-}
+  delayActionMiddleware,
+  fetchAsyncMiddleware,
+};
